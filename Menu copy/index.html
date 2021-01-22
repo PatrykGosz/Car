@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang=">" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Menu </title>
+  <link type="text/css" href='style.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="gmaps.js"></script>
+</head>
+
+<body>
+  <div class="all">
+    <div class="icon-bar">
+      <a class="tablinks" onclick="openCity(event, 'Semestr4')" href="#"><i class="fa fa-home"></i></a>
+      <a class="tablinks" onclick="openCity(event, 'Semestr3')" href="#"><i class="fa fa-search"></i></a>
+      <a class="listlinks" href="#"><i class="fa fa-envelope"></i></a>
+      <a class="listlinks" href="#"><i class="fa fa-globe"></i></a>
+      <a class="tablinks" onclick="openCity(event, 'Semestr1')" href="#"><i class="fa fa-map"></i></a>
+      <a class="tablinks" onclick="openCity(event, 'Semestr2')" href="#"><i class="fa fa-phone"></i></a>
+    </div>
+    <div id="Semestr2" class="tabcontent">
+      <div class="tableNote">
+        <h2>Phone</h2>
+        <table style="width:100%">
+          <tr>
+            <td>Subject</td>
+          </tr>
+          <tr>
+            <th>Code</th>
+            <th>Subject Name</th>
+            <th>Tutor</th>
+            <th>ECTS</th>
+            <th>Note</th>
+          </tr>
+          <tr>
+            <td>FF FFFFF FF</td>
+            <td>Computer Architecture</td>
+            <td>dr inż. P A</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>FF FFFFF FF</td>
+            <td>Computer Architecture</td>
+            <td>dr inż. P A</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>FF FFFFF FF0</td>
+            <td>Computer Architecture</td>
+            <td>dr inż. P A</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>ECTS 15/15</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div id="Semestr1" class="tabcontent">
+      <div class="tableNote">
+        <div id="map"></div>
+      </div>
+    </div>
+    <div id="Semestr3" class="tabcontent">
+      <div class="tableNote">
+        <h2>Wellcome Again!!!</h2>
+      </div>
+    </div>
+    <div id="Semestr4" class="tabcontent">
+      <div class="tableNote">
+        <h2>Wellcome Again!!!</h2>
+        <div id="clock"></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  var mapObj = new GMaps({
+    el: '#map',
+    lat: 48.857,
+    lng: 2.295
+  });
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  function currentTime() {
+  var date = new Date(); /* creating object of Date class */
+  var hour = date.getHours();
+  var min = date.getMinutes();
+  var sec = date.getSeconds();
+  hour = updateTime(hour);
+  min = updateTime(min);
+  sec = updateTime(sec);
+  document.getElementById("clock").innerText = hour + " : " + min + " : " + sec; /* adding time to the div */
+    var t = setTimeout(function(){ currentTime() }, 1000); /* setting timer */
+}
+
+function updateTime(k) {
+  if (k < 10) {
+    return "0" + k;
+  }
+  else {
+    return k;
+  }
+}
+
+currentTime(); /* calling currentTime() function to initiate the process */
+</script>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang=">" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Menu </title>
+  <link type="text/css" href='style.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="content">
+    <div class="clock">
+      <div class="digit km">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+      </div>
+
+      <div class="digit km">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+      </div>
+
+      <!-- <div class="separator"></div> -->
+
+      <div class="digit km">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+      </div>
+      <div class="separator"></div>
+
+      <div class="digit tachometer">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+      </div>
+
+      <!-- <div class="digit minutes">
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+  </div>
+
+  <div class="separator"></div>
+
+  <div class="digit seconds">
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+  </div>
+
+  <div class="digit seconds">
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+    <div class="segment"></div>
+  </div> -->
+    </div>
+    <div>
+      <input type="range" id="phase-slider" min="0" max="200" value="0"
+        oninput="document.getElementById('slider').innerHTML = this.value" />
+      </br>
+      <label>Speed = </label>
+      <label id="slider"></label>
+    </div>
+    <div id="myProgress">
+      <div id="myBar">Fuel: 100%</div>
+    </div>
+
+    <br>
+    <button onclick="move()">Fuel</button>
+  </div>
+</body>
+<script>
+  var i = 0;
+  function move() {
+    if (i == 0) {
+      i = 1;
+      var elem = document.getElementById("myBar");
+      var width = 100;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (width <= 0) {
+          clearInterval(id);
+          i = 0;
+        } else {
+          width--;
+          setTimeout(() => console.log("First"), 1000);
+          setTimeout(() => console.log("Second"), 2000);
+          setTimeout(() => console.log("Third"), 3000);
+          elem.style.width = width + "%";
+          elem.innerHTML = "Fuel:" + width + "%";
+        }
+      }
+    }
+  }
+  var digitSegments = [
+    [1, 2, 3, 4, 5, 6],
+    [2, 3],
+    [1, 2, 7, 5, 4],
+    [1, 2, 7, 3, 4],
+    [6, 7, 2, 3],
+    [1, 6, 7, 3, 4],
+    [1, 6, 5, 4, 3, 7],
+    [1, 2, 3],
+    [1, 2, 3, 4, 5, 6, 7],
+    [1, 2, 7, 3, 6]
+  ]
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // var _hours = document.querySelectorAll('.hours');
+    // var _minutes = document.querySelectorAll('.minutes');
+    // var _seconds = document.querySelectorAll('.seconds');
+    var _km = document.querySelectorAll('.km');
+    var _th = document.querySelectorAll('.tachometer')
+    setInterval(function () {
+      // var date = new Date();
+      // var hours = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds();  
+      var phase = document.getElementById("slider").innerHTML;
+
+
+
+
+      // setNumber(_hours[0], Math.floor(hours/10), 1);
+      // setNumber(_hours[1], hours%10, 1);
+
+      // setNumber(_minutes[0], Math.floor(minutes/10), 1);
+      // setNumber(_minutes[1], minutes%10, 1);
+
+      // setNumber(_seconds[0], Math.floor(seconds/10), 1);
+      // setNumber(_seconds[1], seconds%10, 1);
+      setNumber(_km[0], Math.floor(phase / 100), 1);
+      setNumber(_km[1], Math.floor(((phase % 100) / 10)), 1);
+      setNumber(_km[2], phase % 10, 1);
+      setNumber(_th[0], Math.floor(phase / 25), 1);
+    }, 200);
+  });
+
+  var setNumber = function (digit, number, on) {
+    var segments = digit.querySelectorAll('.segment');
+    var current = parseInt(digit.getAttribute('data-value'));
+
+    // only switch if number has changed or wasn't set
+    if (!isNaN(current) && current != number) {
+      // unset previous number
+      digitSegments[current].forEach(function (digitSegment, index) {
+        setTimeout(function () {
+          segments[digitSegment - 1].classList.remove('on');
+        }, index * 45)
+      });
+    }
+
+    if (isNaN(current) || current != number) {
+      // set new number after
+      setTimeout(function () {
+        digitSegments[number].forEach(function (digitSegment, index) {
+          setTimeout(function () {
+            segments[digitSegment - 1].classList.add('on');
+          }, index * 45)
+        });
+      }, 100);
+      digit.setAttribute('data-value', number);
+    }
+  }
+</script>
+
+</html>
